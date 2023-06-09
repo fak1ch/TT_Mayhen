@@ -9,12 +9,14 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
         [SerializeField] private InputSystem _inputSystem;
         [SerializeField] private GunSlot _gunSlot;
 
-        private void Update()
+        private void OnEnable()
         {
-            if (_inputSystem.ShootButtonHold)
-            {
-                _gunSlot.Shoot();
-            }
+            _inputSystem.OnShootButtonClicked += _gunSlot.Shoot;
+        }
+
+        private void OnDisable()
+        {
+            _inputSystem.OnShootButtonClicked -= _gunSlot.Shoot;
         }
     }
 }

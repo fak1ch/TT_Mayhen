@@ -8,19 +8,14 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
     public class MovableComponent : MonoBehaviour
     {
         public Vector3 MoveInput { get; private set; }
-        public Vector3 MoveDirection { get; private set; }
-        public bool IsRun { get; private set; }
         public float SpeedPercent => MathUtils.GetPercent(0, _config.RunSpeed, _speed);
-        public float WalkSpeedPercent => MathUtils.GetPercent(0f, _config.WalkSpeed,
-            Mathf.Clamp(_speed, _config.WalkSpeed * 0.5f, _config.WalkSpeed));
-        
+
         [SerializeField] private MovableComponentConfig _config;
         [SerializeField] private AnimationController _animationController;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private GroundChecker _groundChecker;
         
         private bool _canMove = true;
-        private bool _canRun = true;
         private float _targetSpeed;
         private float _speed;
 
@@ -45,8 +40,6 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
 
         private void Move(Vector3 moveInput)
         {
-            MoveDirection = moveInput;
-            
             Vector3 newVelocity = Time.deltaTime * _speed * moveInput;
             newVelocity = _canMove ? newVelocity : Vector3.zero;
 
@@ -70,22 +63,14 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
             _speed = 0;
         }
 
-        public void SetCanRun(bool value)
-        {
-            _canRun = value;
-        }
-
-        public void SetMoveInput(Vector3 moveInput, bool runKeyHold)
+        public void SetMoveInput(Vector3 moveInput)
         {
             if (moveInput != Vector3.zero)
             {
                 MoveInput = moveInput;
             }
-
-            runKeyHold = _canRun && runKeyHold;
-            _targetSpeed = runKeyHold ? _config.RunSpeed : _config.WalkSpeed;
+            
             _targetSpeed = moveInput == Vector3.zero ? 0 : _targetSpeed;
-            IsRun = runKeyHold;
         }
         
         private void SetVelocity(Vector3 velocity)

@@ -25,7 +25,7 @@ namespace App.Scripts.Scenes.MainScene.Entities
             gun.gameObject.SetActive(true);
         }
 
-        public void Shoot()
+        public void Shoot(Vector2 clickPosition)
         {
             if(_selectedGun == null) return;
             

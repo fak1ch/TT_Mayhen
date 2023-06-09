@@ -9,8 +9,13 @@ namespace App.Scripts.General.UI.ButtonSpace
 {
     public class CustomButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerClickHandler
     {
+        public UnityEvent OnClickOccurred;
+        public UnityEvent OnMouseDown;
+        public UnityEvent OnMouseUp;
         public bool interactable = true;
         
+        public Vector2 LastClickPosition { get; private set; }
+
         [Space(10)]
         [SerializeField] private Transform _button;
         [SerializeField] private Image _buttonImage;
@@ -21,10 +26,6 @@ namespace App.Scripts.General.UI.ButtonSpace
         [SerializeField] private bool _waitTillTheEndAnimation = false;
         [SerializeField] private bool _animateButton = false;
 
-        public UnityEvent OnClickOccurred;
-        public UnityEvent OnMouseDown;
-        public UnityEvent OnMouseUp;
-        
         private Vector3 _startScale;
         private Color _startColor;
 
@@ -110,6 +111,8 @@ namespace App.Scripts.General.UI.ButtonSpace
         {
             if (!interactable) return;
             interactable = false;
+
+            LastClickPosition = eventData.position;
             
             if (_playButtonClickSound)
             {

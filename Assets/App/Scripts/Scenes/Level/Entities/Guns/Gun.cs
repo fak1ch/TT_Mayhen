@@ -3,10 +3,11 @@ using App.Scripts.General.ObjectPool;
 using App.Scripts.Scenes.General;
 using App.Scripts.Scenes.MainScene.Map;
 using UnityEngine;
+using App.Scripts.Scenes.MainScene.Entities.Bullets;
 
 namespace App.Scripts.Scenes.MainScene.Entities.Bullets
 {
-    public class Gun : Item, IUsable
+    public class Gun : MonoBehaviour
     {
         public event Action OnShoot;
         
@@ -69,7 +70,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
         {
             FirearmsBullet firearmsBullet = (FirearmsBullet)_bulletPool.GetElement();
             firearmsBullet.Initialize(_bulletPool, _character);
-        }
+        } 
 
         private void Reload()
         {
@@ -84,15 +85,5 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
             _ammoCount += bullets;
         }
 
-        public void SetTakeAim(bool value)
-        {
-            _isTakeAim = value;
-        }
-        
-        public void Use(ItemCell itemCell)
-        {
-            itemCell.InventoryPopUp.GunSlot.SelectGun(this);
-            itemCell.InventoryPopUp.HidePopUp();
-        }
     }
 }

@@ -2,7 +2,6 @@
 using App.Scripts.General.ObjectPool;
 using App.Scripts.Scenes.General;
 using App.Scripts.Scenes.MainScene.Map;
-using App.Scripts.Scenes.ParticleConfig;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.MainScene.Entities.Bullets
@@ -21,7 +20,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Bullets
         [SerializeField] private Rigidbody _rigidbody;
 
         private CustomTimer _lifetimeTimer;
-        private ObjectPool<BaseBullet> _bulletPool;
+        private ObjectPool<BaseBullet> _bulletPool; 
         private Character _character;
 
         private void Awake()
