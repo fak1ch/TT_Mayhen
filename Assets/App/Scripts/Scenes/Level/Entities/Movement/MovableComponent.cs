@@ -1,6 +1,4 @@
-using System;
 using App.Scripts.General.Utils;
-using Cinemachine;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
@@ -45,6 +43,8 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
 
             newVelocity.y = _rigidbody.velocity.y;
 
+            Debug.Log(moveInput + " " + newVelocity);
+            
             SetVelocity(newVelocity);
         }
 
@@ -61,6 +61,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
             _canMove = value;
             _targetSpeed = 0;
             _speed = 0;
+            _rigidbody.velocity = Vector3.zero;
         }
 
         public void SetMoveInput(Vector3 moveInput)
@@ -76,11 +77,6 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         private void SetVelocity(Vector3 velocity)
         {
             _rigidbody.velocity = velocity;
-        }
-
-        public void SetRigidbody(Rigidbody targetRigidbody)
-        {
-            _rigidbody = targetRigidbody;
         }
     }
 }
