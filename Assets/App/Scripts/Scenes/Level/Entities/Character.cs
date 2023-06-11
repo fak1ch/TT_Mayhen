@@ -10,11 +10,11 @@ namespace App.Scripts.Scenes.MainScene.Entities
     public class Character : MonoBehaviour
     {
         public EffectsPoolContainer EffectsPoolContainer => _effectsPoolContainer;
-        public AnimationController AnimationController => _animationController;
+        public PlayerStateMachine PlayerStateMachine => _playerStateMachine;
 
         [SerializeField] private HealthComponent _healthComponent;
-        [SerializeField] private AnimationController _animationController;
         [SerializeField] private EffectsPoolContainer _effectsPoolContainer;
+        [SerializeField] private PlayerStateMachine _playerStateMachine;
 
         private void Start()
         {

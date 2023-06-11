@@ -7,26 +7,29 @@ namespace App.Scripts.Scenes.MainScene.Inputs
     public class InputSystem : MonoBehaviour
     {
         public event Action OnJumpButtonClicked;
-        public event Action<Vector2> OnShootButtonClicked;
+        public event Action OnShootButtonDown;
+        public event Action OnShootButtonUp;
 
+        public bool IsShootButtonHold => _shootButton.IsButtonHold;
+        
         [SerializeField] private CustomButton _jumpButton;
         [SerializeField] private CustomButton _shootButton;
         [SerializeField] private LevelConfigScriptableObject _levelConfig;
-
-        private InputSystemConfig _config => _levelConfig.InputSystemConfig;
 
         #region Events
 
         private void OnEnable()
         {
             _jumpButton.OnClickOccurred.AddListener(SendJumpButtonClickedEvent);
-            _shootButton.OnClickOccurred.AddListener(SendShootButtonClickedEvent);
+            _shootButton.OnMouseDown.AddListener(SendShootButtonDownEvent);
+            _shootButton.OnMouseUp.AddListener(SendShootButtonUpEvent);
         }
 
         private void OnDisable()
         {
             _jumpButton.OnClickOccurred.RemoveListener(SendJumpButtonClickedEvent);
-            _shootButton.OnClickOccurred.RemoveListener(SendShootButtonClickedEvent);
+            _shootButton.OnMouseDown.RemoveListener(SendShootButtonDownEvent);
+            _shootButton.OnMouseUp.RemoveListener(SendShootButtonUpEvent);
         }
 
         #endregion
@@ -36,9 +39,14 @@ namespace App.Scripts.Scenes.MainScene.Inputs
             OnJumpButtonClicked?.Invoke();
         }
         
-        private void SendShootButtonClickedEvent()
+        private void SendShootButtonDownEvent()
         {
-            OnShootButtonClicked?.Invoke(_shootButton.LastClickPosition);
+            OnShootButtonDown?.Invoke();
+        }
+        
+        private void SendShootButtonUpEvent()
+        {
+            OnShootButtonUp?.Invoke();
         }
     }
 }

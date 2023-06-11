@@ -1,4 +1,5 @@
-﻿using App.Scripts.Scenes.MainScene.Entities.Bullets;
+﻿using System;
+using App.Scripts.Scenes.MainScene.Entities.Bullets;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.MainScene.Entities
@@ -10,6 +11,14 @@ namespace App.Scripts.Scenes.MainScene.Entities
         [SerializeField] private Gun _selectedGun;
         [SerializeField] private Character _character;
         [SerializeField] private Transform _gunPoint;
+
+        private void Start()
+        {
+            if (_selectedGun != null)
+            {
+                SelectGun(Instantiate(_selectedGun));
+            }
+        }
 
         public void SelectGun(Gun gun)
         {
@@ -25,7 +34,7 @@ namespace App.Scripts.Scenes.MainScene.Entities
             gun.gameObject.SetActive(true);
         }
 
-        public void Shoot(Vector2 clickPosition)
+        public void Shoot()
         {
             if(_selectedGun == null) return;
             

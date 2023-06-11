@@ -17,12 +17,14 @@ public class AnimationController : MonoBehaviour
         private int _speedPercentHash;
         private int _isGroundHash;
         private int _jumpTriggerHash;
+        private int _isTakeAim;
 
         private void Start()
         {
             _speedPercentHash = Animator.StringToHash(_config.SpeedPercentKey);
             _isGroundHash = Animator.StringToHash(_config.IsGroundKey);
             _jumpTriggerHash = Animator.StringToHash(_config.JumpTriggerKey);
+            _isTakeAim = Animator.StringToHash(_config.IsTakeAimKey);
         }
 
         private void Update()
@@ -44,6 +46,11 @@ public class AnimationController : MonoBehaviour
         private void UnityAnimationEndCallback()
         {
             OnAnimationEnd?.Invoke();
+        }
+
+        public void SetTakeAimBool(bool value)
+        {
+            _animator.SetBool(_isTakeAim, value);
         }
     }
 }

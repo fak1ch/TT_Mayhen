@@ -13,8 +13,8 @@ namespace App.Scripts.General.UI.ButtonSpace
         public UnityEvent OnMouseDown;
         public UnityEvent OnMouseUp;
         public bool interactable = true;
-        
-        public Vector2 LastClickPosition { get; private set; }
+
+        public bool IsButtonHold { get; private set; }
 
         [Space(10)]
         [SerializeField] private Transform _button;
@@ -53,6 +53,7 @@ namespace App.Scripts.General.UI.ButtonSpace
             }
 
             OnMouseDown?.Invoke();
+            IsButtonHold = true;
             
             _isPointerDown = true;
             _isPointerExit = false;
@@ -71,6 +72,7 @@ namespace App.Scripts.General.UI.ButtonSpace
             if (_isPointerExit == false)
             {
                 OnMouseUp?.Invoke();
+                IsButtonHold = false;
             }
 
             _isPointerDown = false;
@@ -90,6 +92,7 @@ namespace App.Scripts.General.UI.ButtonSpace
             if (_isPointerDown)
             {
                 OnMouseUp?.Invoke();
+                IsButtonHold = true;
             }
 
             _isPointerDown = false;
@@ -112,8 +115,6 @@ namespace App.Scripts.General.UI.ButtonSpace
             if (!interactable) return;
             interactable = false;
 
-            LastClickPosition = eventData.position;
-            
             if (_playButtonClickSound)
             {
                 ButtonClickSoundHandler.Instance.PlayCustomButtonClickSound();

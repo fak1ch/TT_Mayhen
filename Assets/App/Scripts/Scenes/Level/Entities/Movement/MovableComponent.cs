@@ -1,3 +1,4 @@
+using System;
 using App.Scripts.General.Utils;
 using UnityEngine;
 
@@ -19,8 +20,6 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
 
         private void Update()
         {
-            if(_canMove == false) return;
-            
             SmoothSpeed();
         }
 
@@ -31,19 +30,17 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
 
         private void FixedUpdate()
         {
-            if(_canMove == false) return;
-
             Move(MoveInput);
         }
 
         private void Move(Vector3 moveInput)
         {
+            if(_canMove == false) return;
+
             Vector3 newVelocity = Time.deltaTime * _speed * moveInput;
             newVelocity = _canMove ? newVelocity : Vector3.zero;
 
             newVelocity.y = _rigidbody.velocity.y;
-
-            Debug.Log(moveInput + " " + newVelocity);
             
             SetVelocity(newVelocity);
         }
@@ -59,19 +56,16 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         public void SetCanMove(bool value)
         {
             _canMove = value;
-            _targetSpeed = 0;
-            _speed = 0;
+            SetMoveInput(Vector3.zero);
             _rigidbody.velocity = Vector3.zero;
         }
 
         public void SetMoveInput(Vector3 moveInput)
         {
-            if (moveInput != Vector3.zero)
-            {
-                MoveInput = moveInput;
-            }
-            
-            _targetSpeed = moveInput == Vector3.zero ? 0 : _targetSpeed;
+            MoveInput = moveInput;
+
+            _targetSpeed = moveInput == Vector3.zero ? 0 : _config.RunSpeed;
+            _targetSpeed = _canMove ? _targetSpeed : 0;
         }
         
         private void SetVelocity(Vector3 velocity)

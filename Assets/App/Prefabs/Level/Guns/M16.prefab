@@ -131,7 +131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6559362985659250037
 Transform:
   m_ObjectHideFlags: 0
@@ -169,9 +169,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gunConfig:
-    ShootingSpeed: 0.15
-    ReloadTime: 3
-    AmmoSize: 30
+    ShootingSpeed: 0
+    ReloadTime: 0
+    AmmoSize: 0
     BulletPoolData:
       size: 50
       container: {fileID: 4825720079445327040}

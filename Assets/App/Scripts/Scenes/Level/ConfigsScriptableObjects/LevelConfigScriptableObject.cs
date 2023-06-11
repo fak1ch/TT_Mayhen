@@ -1,4 +1,4 @@
-﻿using App.Scripts.Scenes.MainScene.Inputs;
+﻿using App.Scripts.Scenes.MainScene.Entities.TakeAim;
 using UnityEngine;
 
 namespace App.Scripts.Scenes
@@ -6,6 +6,6 @@ namespace App.Scripts.Scenes
     [CreateAssetMenu(menuName = "App/LevelSceneConfig", fileName = "LevelSceneConfig")]
     public class LevelConfigScriptableObject : ScriptableObject
     {
-        public InputSystemConfig InputSystemConfig;
+        public TakeAimConfig TakeAimConfig;
     }
 }
