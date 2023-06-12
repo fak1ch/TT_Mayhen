@@ -18,7 +18,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
         {
             _runToRightState = new RunToRight(_movableComponent);
             _takeCoverState = new TakeCover(_movableComponent);
-            _stateMachine = new StateMachine(_takeCoverState);
+            _stateMachine = new StateMachine(_runToRightState);
         }
 
         public void RunToRight()

@@ -1,6 +1,4 @@
 ﻿using App.Scripts.General.PopUpSystemSpace;
-using App.Scripts.Scenes.MainScene.Entities;
-using UnityEngine;
 
 namespace App.Scripts.Installers
 {

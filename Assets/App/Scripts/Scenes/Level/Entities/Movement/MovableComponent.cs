@@ -13,6 +13,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         [SerializeField] private AnimationController _animationController;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private GroundChecker _groundChecker;
+        [SerializeField] private RotatorByInput _rotatorByInput;
         
         private bool _canMove = true;
         private float _targetSpeed;
@@ -31,6 +32,11 @@ namespace App.Scripts.Scenes.MainScene.Entities.MovementSystem
         private void FixedUpdate()
         {
             Move(MoveInput);
+
+            if (MoveInput != Vector3.zero)
+            {
+                _rotatorByInput.Rotate(transform, MoveInput);
+            }
         }
 
         private void Move(Vector3 moveInput)

@@ -14,7 +14,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Enemies
         [SerializeField] private EnemyWaveConfig _config;
         [SerializeField] private List<EnemyPlace> _enemyPlaces;
 
-        private int _enemiesCount;
+        private int _enemiesCountKilled;
         
         private void Start()
         {
@@ -28,15 +28,17 @@ namespace App.Scripts.Scenes.MainScene.Entities.Enemies
 
         private IEnumerator SpawnEnemiesRoutine()
         {
-            _enemiesCount = _config.EnemiesCount;
+            _enemiesCountKilled = _config.EnemiesCount;
+            int enemiesCountSpawned = 0;
 
-            while (_enemiesCount >= 0)
+            while (_enemiesCountKilled > 0)
             { 
                 EnemyPlace enemyPlace = GetEmptyEnemyPlace();
 
-                if (enemyPlace != null)
+                if (enemyPlace != null && enemiesCountSpawned < _config.EnemiesCount)
                 {
                     SpawnEnemyAtEnemyPlace(_enemyContainer.GetEnemy(), enemyPlace);
+                    enemiesCountSpawned++;
                 }
 
                 yield return new WaitForSeconds(_config.DelayBetweenSpawns);
@@ -53,7 +55,7 @@ namespace App.Scripts.Scenes.MainScene.Entities.Enemies
 
         private void DieEnemyCallback(Enemy enemy)
         {
-            _enemiesCount--;
+            _enemiesCountKilled--;
         }
 
         private EnemyPlace GetEmptyEnemyPlace()

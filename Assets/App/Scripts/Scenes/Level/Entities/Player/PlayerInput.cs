@@ -13,7 +13,6 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
         [SerializeField] private GunSlot _gunSlot;
         [SerializeField] private TakeAimComponent _takeAimComponent;
         [SerializeField] private MovableComponent _movableComponent;
-        [SerializeField] private PlayerStateMachine _playerStateMachine;
         [SerializeField] private float _delayBeforeShoot = 0.01f;
 
         private CustomTimer _shootTimer;
@@ -41,17 +40,6 @@ namespace App.Scripts.Scenes.MainScene.Entities.Player
         private void Update()
         {
             _shootTimer.Tick(Time.deltaTime);
-            
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                _playerStateMachine.RunToRight();
-            }
-            
-                        
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                _playerStateMachine.TakeCover();
-            }
         }
 
         private void ShootButtonDownCallback()

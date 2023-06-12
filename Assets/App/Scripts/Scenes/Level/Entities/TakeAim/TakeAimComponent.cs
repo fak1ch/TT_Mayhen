@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -6,17 +7,16 @@ namespace App.Scripts.Scenes.MainScene.Entities.TakeAim
 {
     public class TakeAimComponent : MonoBehaviour
     {
+        public event Action<bool> OnIsTakeAimChanged;
+        
         [SerializeField] private Transform _aimSphere;
         [SerializeField] private Camera _mainCamera;
         [SerializeField] private AnimationController _animationController;
         [SerializeField] private Rig _rig;
         [SerializeField] private LevelConfigScriptableObject _levelConfig;
 
-        private bool _isTakeAim;
+        private bool _isTakeAim = false;
         private Tween _rigWeightTween;
-        private Sequence _takeAimSequence;
-        private Vector3 _startLocalPosition;
-        private Vector3 _startLocalEulerAngles;
         private TakeAimConfig _config => _levelConfig.TakeAimConfig;
 
         private void Update()
@@ -45,28 +45,15 @@ namespace App.Scripts.Scenes.MainScene.Entities.TakeAim
         public void SetTakeAim(bool value)
         {
             _isTakeAim = value;
+            OnIsTakeAimChanged?.Invoke(_isTakeAim);
 
+            float weightEndValue = _isTakeAim ? 1 : 0;
+            float changeWeightDuration = _isTakeAim ? 0 : _config.ChangeWeightDuration;
+            
             _rigWeightTween?.Kill();
+            _rigWeightTween = DOTween.To(() => _rig.weight, x => _rig.weight = x,
+                weightEndValue, changeWeightDuration);
 
-            if (value == false)
-            {
-                _rigWeightTween = DOTween.To(() => _rig.weight, x => _rig.weight = x,
-                    0f, _config.ChangeWeightDuration);
-            }
-            else
-            {
-                _rig.weight = 1;
-                _startLocalPosition = transform.localPosition;
-                _startLocalEulerAngles = transform.localEulerAngles;
-            }
-            
-            _takeAimSequence?.Kill();
-            _takeAimSequence = DOTween.Sequence();
-            Vector3 targetLocalPosition = value ? _config.LocalMoveOffset + _startLocalPosition : _startLocalPosition;
-            Vector3 targetEulerAngles = value ? _config.LocalEulerAnglesEnd : _startLocalEulerAngles;
-            _takeAimSequence.Append(transform.DOLocalMove(targetLocalPosition, _config.TakeAimMoveDuration));
-            _takeAimSequence.Append(transform.DOLocalRotate(targetEulerAngles, _config.TakeAimMoveDuration));
-            
             _animationController.SetTakeAimBool(value);
         }
     }
